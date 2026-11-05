@@ -49,6 +49,7 @@
     img.src=`assets/order-50201215-page-${page}.jpg`;
     img.alt=`Приказ о закреплении ТС от 01.07.2025, страница ${page}`;
     img.setAttribute('aria-label',`Увеличить: ${img.alt}`);
+    img.parentElement.scrollTop=0;
     document.querySelectorAll('[data-order-page]').forEach(b=>{const active=b===button;b.classList.toggle('selected',active);b.setAttribute('aria-pressed',String(active));});
     document.dispatchEvent(new CustomEvent('presentation:reveal',{detail:{root:img.parentElement}}));
   }));

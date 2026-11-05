@@ -1,0 +1,52 @@
+/* Full-width document reading and centered evidence panels. */
+@media(min-width:761px){
+  .order-slide h2,.support-slide h2{max-width:48%;font-size:calc(54 * var(--u))}
+  .order-layout,.support-layout{display:block;width:46.5%}
+  .order-document{position:absolute;top:calc(108 * var(--u));right:calc(65 * var(--u));bottom:calc(83 * var(--u));width:calc(50% - 84 * var(--u));display:flex;flex-direction:column;padding:calc(13 * var(--u));border-radius:calc(13 * var(--u))}
+  .order-document figure{display:flex;flex-direction:column;flex:1;min-height:0}
+  .order-page-window{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#a6b294 #f5f8ef;border-radius:calc(6 * var(--u));background:white}
+  .order-document .order-page-window img{width:100%;max-width:none;height:auto;object-fit:initial;filter:none;border-radius:0}
+  .order-document figcaption{flex-shrink:0;font-size:calc(13 * var(--u));margin-top:calc(9 * var(--u));line-height:1.25}
+  .order-document .document-toolbar{flex-shrink:0;padding:0 calc(4 * var(--u)) calc(12 * var(--u))}
+  .support-stage{position:absolute;top:calc(108 * var(--u));bottom:calc(83 * var(--u));right:calc(65 * var(--u));width:calc(50% - 84 * var(--u));display:flex;align-items:center}
+  .support-stage .support-proof{width:100%;margin:0}
+  .support-stage .support-proof>img{height:calc(430 * var(--u))}
+}
+.order-page-window:focus-visible{outline:3px solid #8b9f6d;outline-offset:3px}
+.problem-slide{background:radial-gradient(ellipse at 4% 10%,#fff0cbd9,transparent 54%),radial-gradient(ellipse at 96% 14%,#e1d7f394,transparent 56%),radial-gradient(ellipse at 25% 105%,#dcebcba1,transparent 55%),linear-gradient(135deg,#f9dfcc,#f6dacb)}
+:is(.problem-card,.team-grid-v6>article,.future-nav>button:not(.selected)){
+  --card-a:#fff0c8;--card-b:#f4d9bb;--card-c:#f8e8d9;
+  position:relative;overflow:hidden;
+  background-image:linear-gradient(118deg,var(--card-a) 0%,var(--card-b) 45%,var(--card-c) 78%,var(--card-a) 100%);
+  background-size:260% 240%;background-position:10% 40%;
+  border-color:#a68d7238;box-shadow:inset 0 1px 0 #ffffff9c,0 9px 25px #73604906;
+}
+:is(.problem-card,.team-grid-v6>article,.future-nav>button):nth-child(4n+2){--card-a:#ecdef5;--card-b:#dfe4f7;--card-c:#f1dce9;animation-delay:-3.5s}
+:is(.problem-card,.team-grid-v6>article,.future-nav>button):nth-child(4n+3){--card-a:#dcebd5;--card-b:#d4e9e3;--card-c:#eef0d7;animation-delay:-7s}
+:is(.problem-card,.team-grid-v6>article,.future-nav>button):nth-child(4n){--card-a:#f7d8cc;--card-b:#f2dce8;--card-c:#f8e7c9;animation-delay:-10.5s}
+.future-nav>button:nth-child(5){--card-a:#dbe7f3;--card-b:#d7e9eb;--card-c:#e8e2f4}
+.future-nav>button:nth-child(6){--card-a:#f1d8e4;--card-b:#eddef5;--card-c:#f6e0cf}
+.slide.active :is(.problem-card,.team-grid-v6>article,.future-nav>button:not(.selected)){animation:cardSpectrum 15s ease-in-out infinite alternate;animation-delay:inherit}
+.slide.active :is(.problem-card,.team-grid-v6>article,.future-nav>button):nth-child(2){animation-delay:-3.5s}
+.slide.active :is(.problem-card,.team-grid-v6>article,.future-nav>button):nth-child(3){animation-delay:-7s}
+.slide.active :is(.problem-card,.team-grid-v6>article,.future-nav>button):nth-child(4){animation-delay:-10.5s}
+.slide.active .future-nav>button:nth-child(5){animation-delay:-5s}.slide.active .future-nav>button:nth-child(6){animation-delay:-12s}
+.problem-card:before,.team-grid-v6>article:before{content:'';position:absolute;top:0;left:calc(25 * var(--u));right:calc(25 * var(--u));height:2px;background:linear-gradient(90deg,#fff9,var(--card-b),transparent);pointer-events:none}
+.problem-card h3,.team-grid-v6 h3{color:#29251f}.problem-card p,.team-grid-v6 p{color:#66584d}.team-grid-v6 .team-unit{color:#7d6b5e}
+.future-nav>button:not(.selected)>span{color:#796d67}.future-nav>button:not(.selected)>b{color:#332e28}
+.future-nav>button:not(.selected):hover{background-image:linear-gradient(118deg,var(--card-c),var(--card-a),var(--card-b));border-color:#907e665e;box-shadow:inset 0 1px 0 #fff,0 14px 30px #6d594517}
+.future-nav>button.selected{background-image:linear-gradient(135deg,#4d6441,#344b30);color:#fff9e9}
+.future-panel{--panel-a:#f9f5df;--panel-b:#e5eedb;--panel-c:#eef1e1;background-image:linear-gradient(125deg,var(--panel-a),var(--panel-b),var(--panel-c));background-size:210% 210%}
+.future-panel[data-view=ratings]{--panel-a:#f6e4e7;--panel-b:#eee2f2;--panel-c:#f6edda}
+.future-panel[data-view=analytics]{--panel-a:#e9f1da;--panel-b:#dfeee7;--panel-c:#f3efdc}
+.future-panel[data-view=mileage]{--panel-a:#dfeaf4;--panel-b:#e0eeea;--panel-c:#e9e7f2}
+.future-panel[data-view=axapta]{--panel-a:#f8e1d2;--panel-b:#f2e8d1;--panel-c:#e9e9da}
+.future-panel[data-view=notify]{--panel-a:#f0e2f4;--panel-b:#e8e4f3;--panel-c:#f6e3e3}
+.slide.active .future-panel{animation:cardSpectrum 19s ease-in-out infinite alternate}
+.order-document{background-image:linear-gradient(125deg,#f9f5e5e6,#e1eedee6,#e7e5f0de);background-size:230% 230%}
+.support-proof{background-image:linear-gradient(125deg,#fff3e9e6,#ede0f4e6,#dfede9e6);background-size:230% 230%}
+.slide.active .order-document,.slide.active .support-proof{animation:cardSpectrum 20s ease-in-out infinite alternate}
+@keyframes cardSpectrum{0%{background-position:0% 30%}50%{background-position:70% 90%}100%{background-position:100% 20%}}
+@media(prefers-reduced-motion:reduce){.slide.active :is(.problem-card,.team-grid-v6>article,.future-nav>button,.future-panel,.order-document,.support-proof){animation:none!important;background-position:40% 45%}}
+@media(max-width:760px){.order-page-window{height:460px;max-height:65vh;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;background:#fff;border-radius:6px}.order-document .order-page-window img{width:100%;height:auto;max-width:none;object-fit:initial;filter:none}.support-stage{width:100%}.problem-card:before,.team-grid-v6>article:before{left:22px;right:22px}}
+@media print{.order-document,.support-stage{position:static!important;width:auto!important}.order-layout,.support-layout{width:100%!important;display:grid!important;grid-template-columns:1fr 1fr!important}.order-page-window{overflow:visible;height:auto}.order-document .order-page-window img{height:380px;object-fit:contain;width:100%}.order-slide h2,.support-slide h2{max-width:none}.slide.active :is(.problem-card,.team-grid-v6>article,.future-nav>button,.future-panel,.order-document,.support-proof){animation:none!important}}

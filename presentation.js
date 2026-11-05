@@ -138,6 +138,7 @@
     if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('video,input,textarea,select')) return;
     if (dialogs.some(dialog => dialog.open)) return;
     const key = event.key.toLowerCase();
+    if (event.target.closest('.order-page-window') && ['arrowdown','arrowup','pagedown','pageup',' ','home','end'].includes(key)) return;
     if (['arrowright','pagedown'].includes(key) || (key === ' ' && !event.target.closest('button,a'))) { event.preventDefault(); go(current + 1); }
     else if (['arrowleft','pageup'].includes(key)) { event.preventDefault(); go(current - 1); }
     else if (key === 'home') { event.preventDefault(); go(0); }
