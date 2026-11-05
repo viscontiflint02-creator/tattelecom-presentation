@@ -1,9 +1,9 @@
 (()=>{'use strict';const d=window.FLEET_DATA,$=id=>document.getElementById(id),f=n=>String(n).replace('.',',');
 const titles={fleet:['Парк компании / 05.11.2026','Автопарк и закреплённые сотрудники'],staff:['HR / только блок АВТО / 04.11.2026','Штат блока АВТО: возраст и стаж']};
 function reveal(root){document.dispatchEvent(new CustomEvent('presentation:reveal',{detail:{root}}));}
-function metrics(id,items){$(id).innerHTML=items.map(([value,label])=>`<div><b>${f(value)}</b><span>${label}</span></div>`).join('');}
+function metrics(id,items){$(id).innerHTML=items.map(([value,label])=>`<div><b data-value="${value}">${f(value)}</b><span>${label}</span></div>`).join('');}
 document.querySelectorAll('[data-stat-tab]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.statTab;document.querySelectorAll('[data-stat-tab]').forEach(x=>{x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));});document.querySelectorAll('[data-stat-panel]').forEach(x=>x.classList.toggle('selected',x.dataset.statPanel===k));$('statsEyebrow').textContent=titles[k][0];$('statsTitle').textContent=titles[k][1];reveal(document.querySelector(`[data-stat-panel="${k}"]`));}));
-metrics('nativeFleetKpis',[[d.fleet,'Всего ТС'],[d.statuses['Эксплуатация'],'В эксплуатации'],[d.statuses['Реализация'],'На реализации'],[d.statuses['Консервация'],'Консервация'],[d.statuses['Ремонт'],'В ремонте'],[d.statuses['-'],'Статус не указан']]);
+metrics('nativeFleetKpis',[[d.fleet,'Всего ТС'],[d.statuses['Эксплуатация'],'В эксплуатации'],[d.statuses['Реализация'],'На реализации'],[d.statuses['Консервация'],'Консервация'],[d.statuses['Ремонт'],'В ремонте'],[d.statuses['Прицепы'],'Прицепы']]);
 $('nativeFleetChart').innerHTML=d.zones.map(z=>`<div class="fleet-people-row"><span>${z.zone}</span><div class="fleet-measure"><div><i style="width:${z.fleet/280*100}%"></i></div><b>${z.fleet}</b></div><b class="unique-driver">${z.uniquePeople.drivers}</b><b class="unique-part">${z.uniquePeople.part}</b></div>`).join('');
 $('statsTitle').textContent=titles.fleet[1];
 const short={'КУЭС и Управление':'КУЭС и Управление','Набережночелнинский ЗУЭС':'Наб. Челны','Альметьевский ЗУЭС':'Альметьевск','Буинский ЗУЭС':'Буинск','Чистопольский ЗУЭС':'Чистополь'};

@@ -8,16 +8,52 @@
   let firstRender = true;
   let transitionAnimations = [];
   let contentAnimations = [];
-  function reveal(root) {
+  let counterFrame;
+  let restoreCounters = [];
+  function stopContentMotion() {
     contentAnimations.forEach(animation => animation.cancel());
     contentAnimations = [];
+    cancelAnimationFrame(counterFrame);
+    restoreCounters.forEach(restore => restore());
+    restoreCounters = [];
+  }
+  function reveal(root) {
+    stopContentMotion();
     if (!root || reducedMotion.matches) return;
-    const items = [...root.querySelectorAll('.eyebrow,h1,h2,.native-kpis>div,.fleet-people-row,.problem-card,.steps li,.roadmap-grid>article,.team-members article,.workflow-node,.native-age-row')]
-      .filter(node => { const r = node.getBoundingClientRect(); return r.width > 0 && r.height > 0; }).slice(0,22);
-    items.forEach((node,i) => contentAnimations.push(node.animate([
-      {opacity:0,transform:'translateY(13px)'},
-      {opacity:1,transform:'translateY(0)'}
-    ],{duration:430,delay:55+i*24,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'})));
+    const visible = node => { const r = node.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+    const surfaces = '.problem-card,.roadmap-grid>article,.team-members article,.video-shell,.role-explanation>article,.evidence,.team-project';
+    const items = [...root.querySelectorAll(`.eyebrow,h1,h2,.word-line,.cover-bottom,.cover-strip>div,.native-kpis>div,.fleet-people-row,.steps li,.workflow-node,.native-age-row,${surfaces}`)]
+      .filter(visible).slice(0,30);
+    items.forEach((node,i) => {
+      const card = node.matches(surfaces);
+      const diagram = node.matches('.workflow-node');
+      contentAnimations.push(node.animate([
+        {opacity:0,transform:`translateY(${card ? 26 : 16}px) scale(${card ? .975 : 1})`},
+        {opacity:1,transform:'translateY(0) scale(1)'}
+      ],{duration:card ? 760 : 620,delay:70+i*(diagram ? 90 : 38),easing:'cubic-bezier(.16,1,.3,1)',fill:'backwards'}));
+    });
+    root.querySelectorAll('.fleet-measure i,.native-age-row i').forEach((bar,i) => {
+      if (!visible(bar)) return;
+      contentAnimations.push(bar.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:1050,delay:170+i*65,easing:'cubic-bezier(.16,1,.3,1)',fill:'backwards'}));
+    });
+    root.querySelectorAll('.workflow-links path').forEach((path,i) => {
+      const length = path.getTotalLength();
+      contentAnimations.push(path.animate([{strokeDasharray:`${length} ${length}`,strokeDashoffset:length,opacity:0},{strokeDasharray:`${length} ${length}`,strokeDashoffset:0,opacity:1}],{duration:800,delay:260+i*145,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'}));
+    });
+    const counters = [...root.querySelectorAll('.native-kpis b[data-value]')].filter(visible).map(node => {
+      const value = Number(node.dataset.value), text = node.textContent;
+      restoreCounters.push(() => { node.textContent = text; });
+      return {node,value,decimals:Number.isInteger(value) ? 0 : 1};
+    });
+    if (counters.length) {
+      const start = performance.now();
+      const tick = now => {
+        const t = Math.min(1,Math.max(0,(now-start-120)/900)),ease = 1-Math.pow(1-t,3);
+        counters.forEach(({node,value,decimals}) => { node.textContent = (value*ease).toFixed(decimals).replace('.',','); });
+        if (t < 1) counterFrame = requestAnimationFrame(tick);
+      };
+      counterFrame = requestAnimationFrame(tick);
+    }
   }
   document.addEventListener('presentation:reveal',event => reveal(event.detail?.root));
   function go(index, updateHash = true) {
@@ -27,7 +63,7 @@
     const changing = firstRender || next !== current;
     if (changing) {
       transitionAnimations.forEach(animation => animation.cancel());
-      contentAnimations.forEach(animation => animation.cancel());
+      stopContentMotion();
       transitionAnimations = [];
       slides.forEach(slide => slide.classList.remove('leaving'));
     }
@@ -44,7 +80,8 @@
         outgoing.finished.then(() => previous.classList.remove('leaving')).catch(() => {});
         transitionAnimations.push(outgoing);
       }
-      transitionAnimations.push(slides[current].animate([{opacity:0,transform:'translateY(17px)'},{opacity:1,transform:'translateY(0)'}],{duration:520,easing:'cubic-bezier(.22,1,.36,1)'}));
+      const direction = current >= previousIndex ? 1 : -1;
+      transitionAnimations.push(slides[current].animate([{opacity:0,transform:`translateX(${direction*32}px) scale(.99)`},{opacity:1,transform:'translateX(0) scale(1)'}],{duration:680,easing:'cubic-bezier(.16,1,.3,1)'}));
       reveal(slides[current]);
     }
     firstRender = false;
@@ -152,11 +189,21 @@
         $('cycleWord').textContent = words[wordIndex];
         slides[0].dataset.theme = themes[wordIndex];
         $('cycleWord').classList.remove('changing');
-      }, 250);
-    }, 3600);
+      }, 160);
+    }, 1600);
   }
   document.addEventListener('visibilitychange', () => { if (document.hidden) document.querySelectorAll('video').forEach(v => v.pause()); startCycle(); });
-  reducedMotion.addEventListener('change', startCycle);
+  reducedMotion.addEventListener('change', () => {
+    startCycle();
+    stopContentMotion();
+    transitionAnimations.forEach(animation => animation.cancel());
+    slides.forEach(slide => slide.classList.remove('leaving'));
+  });
+  window.addEventListener('beforeprint', () => {
+    stopContentMotion();
+    transitionAnimations.forEach(animation => animation.cancel());
+    slides.forEach(slide => slide.classList.remove('leaving'));
+  });
   window.addEventListener('hashchange', () => go((Number(location.hash.slice(1)) || 1) - 1, false));
   go((Number(location.hash.slice(1)) || 1) - 1);
   startCycle();
