@@ -5,13 +5,49 @@
   const $ = id => document.getElementById(id);
   let current = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let firstRender = true;
+  let transitionAnimations = [];
+  let contentAnimations = [];
+  function reveal(root) {
+    contentAnimations.forEach(animation => animation.cancel());
+    contentAnimations = [];
+    if (!root || reducedMotion.matches) return;
+    const items = [...root.querySelectorAll('.eyebrow,h1,h2,.native-kpis>div,.fleet-people-row,.problem-card,.steps li,.roadmap-grid>article,.team-members article,.workflow-node,.native-age-row')]
+      .filter(node => { const r = node.getBoundingClientRect(); return r.width > 0 && r.height > 0; }).slice(0,22);
+    items.forEach((node,i) => contentAnimations.push(node.animate([
+      {opacity:0,transform:'translateY(13px)'},
+      {opacity:1,transform:'translateY(0)'}
+    ],{duration:430,delay:55+i*24,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'})));
+  }
+  document.addEventListener('presentation:reveal',event => reveal(event.detail?.root));
   function go(index, updateHash = true) {
-    current = Math.max(0, Math.min(slides.length - 1, index));
+    const next = Math.max(0, Math.min(slides.length - 1, index));
+    const previous = slides[current];
+    const previousIndex = current;
+    const changing = firstRender || next !== current;
+    if (changing) {
+      transitionAnimations.forEach(animation => animation.cancel());
+      contentAnimations.forEach(animation => animation.cancel());
+      transitionAnimations = [];
+      slides.forEach(slide => slide.classList.remove('leaving'));
+    }
+    current = next;
     slides.forEach((slide, i) => {
       slide.classList.toggle('active', i === current);
       slide.setAttribute('aria-hidden', String(i !== current));
       if (i !== current) slide.querySelectorAll('video').forEach(video => video.pause());
     });
+    if (changing && !reducedMotion.matches) {
+      if (!firstRender && previousIndex !== current) {
+        previous.classList.add('leaving');
+        const outgoing = previous.animate([{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(-12px)'}],{duration:260,easing:'ease-out'});
+        outgoing.finished.then(() => previous.classList.remove('leaving')).catch(() => {});
+        transitionAnimations.push(outgoing);
+      }
+      transitionAnimations.push(slides[current].animate([{opacity:0,transform:'translateY(17px)'},{opacity:1,transform:'translateY(0)'}],{duration:520,easing:'cubic-bezier(.22,1,.36,1)'}));
+      reveal(slides[current]);
+    }
+    firstRender = false;
     slides[current].scrollTop = 0;
     $('slideCounter').textContent = `${String(current + 1).padStart(2, '0')} / ${slides.length}`;
     $('sectionLabel').textContent = slides[current].dataset.section || 'Заявочная система';
