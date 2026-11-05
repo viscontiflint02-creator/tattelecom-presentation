@@ -1,0 +1,56 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Автопарк и сотрудники — актуальные данные</title><link rel="stylesheet" href="analytics-template.css"><link rel="stylesheet" href="analytics.css"><body><main id="analyticsStage"><nav class="analytics-tabs" aria-label="Вкладки аналитики"><button class="is-active" data-tab="fleet">Автопарк</button><button data-tab="staff">Возраст и стаж</button><button data-tab="assignments">Водители и совместители</button><small>Парк 05.11.2026 · кадровый срез 04.11.2026</small></nav><section id="fleet" class="analytics-tab is-active"><div class="fleet-kpis" id="fleetKpis"></div><div class="fleet-zones"><h3>Количество ТС по ЗУЭС</h3><div id="fleetZones"></div><p>КУЭС и Управление объединены. 67 ТС с исходным статусом «-» показаны как «статус не указан».</p></div></section><section id="staff" class="analytics-tab"><div class="cohort-controls"><label>Профиль <select id="cohort"><option value="staff">Штатные водители по должности</option><option value="drivers">Водители по закреплениям, найдены в кадровом срезе</option><option value="part">Совместители, найдены в кадровом срезе</option><option value="active">Активные назначения, найдены в кадровом срезе</option></select></label><span id="cohortNote"></span></div><article class="panel staff-profile-panel is-shown" data-label="Штат АВТО" data-staff-profile>
+              <div class="staff-head">
+                <div>
+                  <p class="eyebrow">Люди · штат АВТО</p>
+                  <h3 class="h3">Возраст и стаж водителей и совместителей</h3></div>
+                <div class="staff-kpis">
+                  <div class="stat-chip stat-chip--dark"><b data-staff-count>186</b><span>сотрудников</span></div>
+                  <div class="stat-chip"><b data-staff-age>52,9</b><span>средний возраст, лет</span></div>
+                  <div class="stat-chip"><b data-staff-tenure>8,9</b><span>средний стаж, лет</span></div>
+                  <div class="stat-chip"><b>5</b><span>контуров ЗУЭС</span></div>
+                </div>
+              </div>
+
+              <div class="staff-zone-filter" role="group" aria-label="Выбор ЗУЭС для графиков">
+                <button class="staff-zone-btn is-active" type="button" data-staff-zone="all" aria-pressed="true">Все ЗУЭС</button>
+                <button class="staff-zone-btn" type="button" data-staff-zone="kues" aria-pressed="false">КУЭС и Управление</button>
+                <button class="staff-zone-btn" type="button" data-staff-zone="nch" aria-pressed="false">Наб. Челны</button>
+                <button class="staff-zone-btn" type="button" data-staff-zone="almet" aria-pressed="false">Альметьевск</button>
+                <button class="staff-zone-btn" type="button" data-staff-zone="chist" aria-pressed="false">Чистополь</button>
+                <button class="staff-zone-btn" type="button" data-staff-zone="buinsk" aria-pressed="false">Буинск</button>
+              </div>
+
+              <div class="staff-profile-grid">
+                <section class="staff-profile-card" aria-labelledby="staff-age-title">
+                  <div class="staff-profile-card__head">
+                    <div><h4 id="staff-age-title">Возраст сотрудников</h4><p><span data-staff-zone-label>Все ЗУЭС</span> · распределение по группам</p></div>
+                    <div class="staff-profile-card__metric"><b><span data-staff-age>52,9</span> лет</b><span>средний возраст</span></div>
+                  </div>
+                  <div class="staff-profile-bars" data-staff-age-bars>
+                    <div class="staff-profile-bar" data-staff-age-bar><span class="staff-profile-bar__label">до 30</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:18.8"></i></div><b class="staff-profile-bar__value">13 · 7%</b></div>
+                    <div class="staff-profile-bar" data-staff-age-bar><span class="staff-profile-bar__label">30–39</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:29"></i></div><b class="staff-profile-bar__value">20 · 11%</b></div>
+                    <div class="staff-profile-bar" data-staff-age-bar><span class="staff-profile-bar__label">40–49</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:40.6"></i></div><b class="staff-profile-bar__value">28 · 15%</b></div>
+                    <div class="staff-profile-bar" data-staff-age-bar><span class="staff-profile-bar__label">50–59</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:81.2"></i></div><b class="staff-profile-bar__value">56 · 30%</b></div>
+                    <div class="staff-profile-bar" data-staff-age-bar><span class="staff-profile-bar__label">60+</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:100"></i></div><b class="staff-profile-bar__value">69 · 37%</b></div>
+                  </div>
+                  <div class="staff-profile-card__foot">Кадровый отчёт 04.11.2026 · <span data-staff-foot-label="">103 водителя</span></div>
+                </section>
+
+                <section class="staff-profile-card staff-profile-card--dark" aria-labelledby="staff-tenure-title">
+                  <div class="staff-profile-card__head">
+                    <div><h4 id="staff-tenure-title">Стаж в компании</h4><p><span data-staff-zone-label>Все ЗУЭС</span> · распределение по группам</p></div>
+                    <div class="staff-profile-card__metric"><b><span data-staff-tenure>8,9</span> лет</b><span>средний стаж</span></div>
+                  </div>
+                  <div class="staff-profile-bars" data-staff-tenure-bars>
+                    <div class="staff-profile-bar" data-staff-tenure-bar><span class="staff-profile-bar__label">до 1</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:52.2"></i></div><b class="staff-profile-bar__value">24 · 13%</b></div>
+                    <div class="staff-profile-bar" data-staff-tenure-bar><span class="staff-profile-bar__label">1–3</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:100"></i></div><b class="staff-profile-bar__value">46 · 25%</b></div>
+                    <div class="staff-profile-bar" data-staff-tenure-bar><span class="staff-profile-bar__label">3–5</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:34.8"></i></div><b class="staff-profile-bar__value">16 · 9%</b></div>
+                    <div class="staff-profile-bar" data-staff-tenure-bar><span class="staff-profile-bar__label">5–10</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:76.1"></i></div><b class="staff-profile-bar__value">35 · 19%</b></div>
+                    <div class="staff-profile-bar" data-staff-tenure-bar><span class="staff-profile-bar__label">10–20</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:87"></i></div><b class="staff-profile-bar__value">40 · 22%</b></div>
+                    <div class="staff-profile-bar" data-staff-tenure-bar><span class="staff-profile-bar__label">20+</span><div class="staff-profile-bar__track"><i class="staff-profile-bar__fill" style="--pct:54.3"></i></div><b class="staff-profile-bar__value">25 · 13%</b></div>
+                  </div>
+                  <div class="staff-profile-card__foot">Кадровый отчёт 04.11.2026 · <span data-staff-foot-label="">103 водителя</span></div>
+                </section>
+              </div>
+            </article>
+            </section><section id="assignments" class="analytics-tab"><div class="assignment-head"><h3>Закрепления сотрудников за транспортом</h3><label>Показать <select id="activity"><option value="all">Все записи источника</option><option value="active">Только «Активен = Да»</option></select></label></div><div class="assignment-kpis" id="assignmentKpis"></div><div id="assignmentTable"></div><p class="assignment-note" id="assignmentNote"></p><p class="method-note">Учётный ключ: компания Axapta + табельный номер. Один человек может иметь записи в нескольких компаниях. Флаг активности описывает назначение и не подтверждает кадровый статус.</p></section></main><script src="analytics-data.js"></script><script src="analytics.js"></script></body></html>

@@ -14,7 +14,7 @@
     });
     slides[current].scrollTop = 0;
     $('slideCounter').textContent = `${String(current + 1).padStart(2, '0')} / ${slides.length}`;
-    $('sectionLabel').textContent = current === 0 ? 'Введение' : current < 7 ? 'Работа филиалов' : current === 7 ? 'Данные Axapta' : current === 10 || current === 15 ? 'Демонстрация' : current === 17 ? 'Общий процесс' : 'Новая система';
+    $('sectionLabel').textContent = slides[current].dataset.section || 'Заявочная система';
     $('progressFill').style.width = `${(current + 1) / slides.length * 100}%`;
     $('prevBtn').disabled = current === 0;
     $('nextBtn').disabled = current === slides.length - 1;
@@ -54,7 +54,7 @@
     img.tabIndex = 0;
     img.setAttribute('role', 'button');
     img.setAttribute('aria-label', `Увеличить: ${img.alt}`);
-    const open = () => { $('zoomImage').src = img.src; $('zoomImage').alt = img.alt; $('zoomCaption').textContent = img.alt; openDialog('imageDialog'); };
+    const open = () => { $('imageDialog').classList.remove('bot-image'); $('zoomImage').src = img.src; $('zoomImage').alt = img.alt; $('zoomCaption').textContent = img.alt; openDialog('imageDialog'); };
     img.addEventListener('click', open);
     img.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); open(); } });
   });
@@ -83,6 +83,15 @@
   }, {passive:true});
   // Buttons seek within the supplied original recordings. No autoplay on slide entry.
   document.addEventListener('click', event => {
+    const bot = event.target.closest('[data-bot]');
+    if (bot) {
+      $('zoomImage').src = bot.dataset.bot;
+      $('zoomImage').alt = bot.textContent;
+      $('zoomCaption').textContent = bot.textContent.replace('↗','');
+      $('imageDialog').classList.add('bot-image');
+      openDialog('imageDialog');
+      return;
+    }
     const button = event.target.closest('[data-video]');
     if (!button) return;
     const video = $(button.dataset.video);
