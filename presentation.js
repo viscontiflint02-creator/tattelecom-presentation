@@ -21,7 +21,7 @@
     stopContentMotion();
     if (!root || reducedMotion.matches) return;
     const visible = node => { const r = node.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
-    const surfaces = '.problem-card,.roadmap-grid>article,.team-members article,.video-shell,.role-explanation>article,.evidence,.team-project,.order-document,.support-proof,.support-steps li,.team-grid-v6 article,.future-nav>button,.future-copy,.future-diagram,.future-note,#orderPageImage';
+    const surfaces = '.problem-card,.roadmap-grid>article,.team-members article,.video-shell,.role-explanation>article,.evidence,.team-project,.order-document,.support-proof,.support-steps li,.team-grid-v6 article,.team-consultants,.ai-tool-card,.future-nav>button,.future-copy,.future-diagram,.future-note,#orderPageImage';
     const items = [...root.querySelectorAll(`.eyebrow,h1,h2,.word-line,.cover-bottom,.cover-strip>div,.native-kpis>div,.fleet-people-row,.steps li,.order-timeline li,.workflow-node,.native-age-row,${surfaces}`)]
       .filter(visible).slice(0,30);
     items.forEach((node,i) => {
