@@ -21,8 +21,8 @@
     stopContentMotion();
     if (!root || reducedMotion.matches) return;
     const visible = node => { const r = node.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
-    const surfaces = '.problem-card,.roadmap-grid>article,.team-members article,.video-shell,.role-explanation>article,.evidence,.team-project';
-    const items = [...root.querySelectorAll(`.eyebrow,h1,h2,.word-line,.cover-bottom,.cover-strip>div,.native-kpis>div,.fleet-people-row,.steps li,.workflow-node,.native-age-row,${surfaces}`)]
+    const surfaces = '.problem-card,.roadmap-grid>article,.team-members article,.video-shell,.role-explanation>article,.evidence,.team-project,.order-document,.support-proof,.support-steps li,.team-grid-v6 article,.future-nav>button,.future-copy,.future-diagram,.future-note,#orderPageImage';
+    const items = [...root.querySelectorAll(`.eyebrow,h1,h2,.word-line,.cover-bottom,.cover-strip>div,.native-kpis>div,.fleet-people-row,.steps li,.order-timeline li,.workflow-node,.native-age-row,${surfaces}`)]
       .filter(visible).slice(0,30);
     items.forEach((node,i) => {
       const card = node.matches(surfaces);
@@ -36,7 +36,10 @@
       if (!visible(bar)) return;
       contentAnimations.push(bar.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:1050,delay:170+i*65,easing:'cubic-bezier(.16,1,.3,1)',fill:'backwards'}));
     });
-    root.querySelectorAll('.workflow-links path').forEach((path,i) => {
+    root.querySelectorAll('.dashboard-bars i').forEach((bar,i) => {
+      contentAnimations.push(bar.animate([{transform:'scaleY(0)'},{transform:'scaleY(1)'}],{duration:1000,delay:100+i*65,easing:'cubic-bezier(.16,1,.3,1)',fill:'backwards'}));
+    });
+    root.querySelectorAll('.workflow-links path,.concept-lines .concept-path').forEach((path,i) => {
       const length = path.getTotalLength();
       contentAnimations.push(path.animate([{strokeDasharray:`${length} ${length}`,strokeDashoffset:length,opacity:0},{strokeDasharray:`${length} ${length}`,strokeDashoffset:0,opacity:1}],{duration:800,delay:260+i*145,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'}));
     });
